@@ -1,61 +1,71 @@
-import React, { useState } from "react";
+import { Button } from "antd";
+import React, { useState, useMemo, useRef } from "react";
 
 const Ex4 = () => {
-  const [todos, setTodos] = useState([]);
+  const [number, setNumber] = useState([]);
   const [input, setInput] = useState("");
+  const inputRef = useRef(null);
 
-  const addTodo = () => {
-    if (!input.trim()) return;
-    setTodos([...todos, { text: input, completed: false }]);
-    setInput("");
+  const addNumber = () => {
+    const value = parseInt(input, 10);
+    if (!isNaN(value)) {
+      setNumber((prev) => [...prev, value]);
+      setInput("");
+      inputRef.current.focus();
+    }
   };
 
-  const toggleComplete = (index) => {
-    setTodos((prev) =>
-      prev.map((todo, i) =>
-        i === index ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  const removeNumber = (index) => {
+    setNumber((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const clearCompleted = () => {
-    setTodos((prev) => prev.filter((todo) => !todo.completed));
-  };
+  const totalSum = useMemo(() => {
+    console.log("Đang tính lại tổng...");
+    return number.reduce((sum, num) => sum + num, 0);
+  }, [number]);
 
   return (
     <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
-      <div className="flex mb-4">
+      <div className="border p-2 flex-grow rounded">
         <input
+          ref={inputRef}
           type="text"
-          className="border p-2 flex-grow rounded"
+          className=""
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addTodo()}
-          placeholder="Add a new task..."
+          onChange={(e) => {
+            if (/^\d*$/.test(e.target.value)) {
+              setInput(e.target.value);
+            }
+          }}
+          onKeyDown={(e) => e.key === "Enter" && addNumber()}
+          placeholder="Nhập số cần tính..."
         />
+        <button
+          onClick={addNumber}
+          className="ml-2 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+        >
+          Thêm
+        </button>
       </div>
       <ul>
-        {todos.map((todo, index) => (
-          <li key={index} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleComplete(index)}
-              className="mr-2"
-            />
-            <span className={todo.completed ? "line-through text-gray-500" : ""}>
-              {todo.text}
-            </span>
+        {number.map((num, index) => (
+          <li
+            key={index}
+            className="flex justify-between items-center bg-gray-100 p-2 rounded mb-2"
+          >
+            <span>Số {num}</span>
+            <button
+              onClick={() => removeNumber(index)}
+              className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
+            >
+              Xóa
+            </button>
           </li>
         ))}
       </ul>
-      <button
-        onClick={clearCompleted}
-        className="bg-red-500 text-white px-4 py-2 mt-4 rounded"
-      >
-        Clear Completed
-      </button>
+      <h1 className="mt-4 text-lg font-semibold">
+        Tổng: <span className="text-blue-600">{totalSum}</span>
+      </h1>
     </div>
   );
 };

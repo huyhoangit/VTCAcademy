@@ -1,0 +1,22 @@
+import {useState} from "react";
+import Ex5 from "../components/Ex5";
+
+function useCounter (initialValue = 0,num)  {
+    const [count,setCount] = useState(initialValue);
+
+    const increment = () => {
+        setCount(count => Math.min(10,count+num));
+    };
+
+    const decrement =() => {
+        setCount(count => Math.max(-10,count - num));
+    };
+
+    const reset =() => {
+        setCount(0);
+    };
+
+    return{count,increment,decrement,reset};
+};
+
+export default useCounter;

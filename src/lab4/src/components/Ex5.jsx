@@ -3,24 +3,17 @@ import { Button } from "antd";
 import { ImportOutlined, MinusOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
 import { Input } from "antd";
+import useCounter from "../hooks/useCounter";
 
 const Ex5 = () => {
-    const [count,setcount] = useState(0);
     const [num,setnum] = useState(1);
+    const {count,increment,decrement,reset} = useCounter(0,num);
 
     const handlenum = (e) => {
         const value = parseInt(e.target.value)
         setnum(isNaN(value) ? 0 : value);
 
     }
-
-    const Increase = () => {
-        setcount(prev => prev + num);
-    };
-
-    const Decrease = () => {
-        setcount(prev => (prev > 0 ? prev - num : 0));
-    };
 
     const handlechange = (e) => {
         const value = parseInt(e.target.value) || 0;
@@ -34,24 +27,25 @@ const Ex5 = () => {
 
                 <div className="flex flex-row items-center space-y-4 bg-gray-100 p-6">
                     <div className="block w-full max-w-xs">
-                        <Button className="w-full px-6 py-2 text-lg" onClick = {Decrease}>
+                        <Button className="w-full px-6 py-2 text-lg" onClick = {decrement}>
                             <MinusOutlined /> Giảm
                         </Button>
                     </div>
 
                     <Input 
                         value = {count}
-                        onChange={handlechange}
                         type="number"
                         min={0} 
                         className="text-center text-lg w-24"
+                        onChange={handlechange}
                     />
 
                     <div className="block w-full max-w-xs">
-                        <Button className="w-full px-6 py-2 text-lg" onClick={Increase}>
+                        <Button className="w-full px-6 py-2 text-lg" onClick={increment}>
                             <PlusOutlined /> Tăng
                         </Button>
                     </div>
+                    <Button onClick={reset}>reset</Button>
                 </div>
             </div>
     )
