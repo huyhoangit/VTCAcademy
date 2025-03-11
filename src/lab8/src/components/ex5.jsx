@@ -16,7 +16,6 @@ const Ex5 = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto p-4 border rounded-lg">
-      {/* Mật khẩu */}
       <div className="mb-3">
         <label className="block font-medium">* Mật khẩu</label>
         <Controller
@@ -34,7 +33,6 @@ const Ex5 = () => {
         <p className="text-red-500 text-sm">{errors.password?.message}</p>
       </div>
 
-      {/* Xác nhận mật khẩu */}
       <div className="mb-3">
         <label className="block font-medium">* Xác nhận mật khẩu</label>
         <Controller
@@ -52,7 +50,6 @@ const Ex5 = () => {
         <p className="text-red-500 text-sm">{errors.confirmPassword?.message}</p>
       </div>
 
-      {/* Ngày sinh */}
       <div className="mb-3">
         <label className="block font-medium">* Ngày sinh</label>
         <Controller
@@ -69,7 +66,6 @@ const Ex5 = () => {
         <p className="text-red-500 text-sm">{errors.birthDate?.message}</p>
       </div>
 
-      {/* Số thẻ tín dụng */}
       <div className="mb-3">
         <label className="block font-medium">* Số thẻ tín dụng</label>
         <Controller
